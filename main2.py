@@ -1,8 +1,19 @@
-import pygame, sys
+import pygame
+import sys
+import random
+
+class Runner():
+    def __init__(self, x=0, y=0):
+        self.custome = pygame.image.load("images/smallball.png")
+        self.position = [x, y]
+        self.name = "Bola"
+        
+    def avanzar(self):
+        self.position[0] += random.randint(1, 6)
 
 class Game():
     runners = []
-    __startLine = 20
+    __startLine = -5
     __finishLine = 620
     
     def __init__(self):
@@ -10,16 +21,31 @@ class Game():
         self.__background = pygame.image.load("1.png")
         pygame.display.set_caption("Carrera de Bichos")
         
+        firstRunner = Runner(self.__startLine, 240)
+        firstRunner.name = "Speedy"
+        self.runners.append(firstRunner)
+             
+        
     def competir(self):
         gameOver = False
         while not gameOver:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     gameOver = True
+                    
+            self.runners[0].avanzar()
+            
+            if self.runners[0].position[0] >= self.__finishLine:
+                print("{} ah ganado".format(self.runners[0].name))
+                gameOver = True
             
             self.__screen.blit(self.__background, (0,0))
-            
+            self.__screen.blit(self.runners[0].custome, self.runners[0].position)
+                       
             pygame.display.flip()
+        
+        pygame.quit()
+        sys.exit()
 
 
 if __name__ == "__main__":

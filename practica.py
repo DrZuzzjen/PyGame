@@ -19,4 +19,6 @@ while not gameOver:
 
 
 pygame.quit()
+sys.exit()
+
             
