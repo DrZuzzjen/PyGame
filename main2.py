@@ -13,6 +13,8 @@ class Runner():
 
 class Game():
     runners = []
+    __posY = (160,200,240,280)
+    __names = ('Speedy', 'Lucera', 'Tonio', 'Toribio')
     __startLine = -5
     __finishLine = 620
     
@@ -21,10 +23,10 @@ class Game():
         self.__background = pygame.image.load("1.png")
         pygame.display.set_caption("Carrera de Bichos")
         
-        firstRunner = Runner(self.__startLine, 240)
-        firstRunner.name = "Speedy"
-        self.runners.append(firstRunner)
-             
+        for i in range (4):
+            theRunner =  Runner(self.__startLine, self.__posY[i])
+            theRunner.name = self.__names[i]
+            self.runners.append(theRunner)          
         
     def competir(self):
         gameOver = False
@@ -33,14 +35,17 @@ class Game():
                 if event.type == pygame.QUIT:
                     gameOver = True
                     
-            self.runners[0].avanzar()
-            
-            if self.runners[0].position[0] >= self.__finishLine:
-                print("{} ah ganado".format(self.runners[0].name))
-                gameOver = True
-            
+            for runner in self.runners:
+                runner.avanzar()
+                if runner.position[0] >= self.__finishLine:
+                    print("{} ah ganado".format(runner.name))
+                    gameOver = True
+           
+                       
             self.__screen.blit(self.__background, (0,0))
-            self.__screen.blit(self.runners[0].custome, self.runners[0].position)
+            
+            for runner in self.runners:
+                self.__screen.blit(runner.custome, runner.position)
                        
             pygame.display.flip()
         
